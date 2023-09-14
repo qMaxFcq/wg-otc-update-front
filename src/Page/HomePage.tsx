@@ -7,8 +7,8 @@ const HomePage: React.FC = () => {
     return (
         <div className="flex bg-slate-900">
             <Navbar />
-            {/* <AddOrderPage /> */}
-            <History />
+            <AddOrderPage />
+            {/* <History /> */}
         </div>
     );
 };
