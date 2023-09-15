@@ -11,7 +11,7 @@ export default function Navbar() {
                 </Avatar>
                 <p className=" text-2xl">OTC Record</p>
             </div>
-            <div className=" flex flex-col text-xl justify-center">
+            <div className=" flex flex-col text-xl items-center">
                 <Link to="/">
                     <button className="hover:bg-slate-700 rounded-sm">
                         Add New OTC

@@ -1,0 +1,143 @@
+import React, { useState, ChangeEvent } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useAddNewOrderContext } from "@/context/addNewOrderContext";
+
+interface InputState {
+    side: string;
+    symbol: string;
+    price: number | string;
+    amount: number | string;
+    customer: string;
+}
+
+const initialInput: InputState = {
+    side: "",
+    symbol: "",
+    price: 0, // เปลี่ยนให้เป็นสตริง
+    amount: 0, // เปลี่ยนให้เป็นสตริง
+    customer: "",
+};
+
+export default function AddOrderPage() {
+    const { addNewOrderOTC } = useAddNewOrderContext();
+    const [input, setInput] = useState<InputState>(initialInput);
+
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        console.log(input);
+        setInput({ ...input, [e.target.name]: e.target.value });
+    };
+
+    const handleAddOrder = async () => {
+        try {
+            await addNewOrderOTC(input);
+            window.alert("Add Done");
+        } catch (error) {
+            console.error("Error adding new order:", error);
+        }
+    };
+
+    return (
+        <div className="w-[1200px] border-2 rounded-md m-auto">
+            <div className="m-auto w-[550px] p-5">
+                <div className="text-4xl text-white mb-2">Add New OTC</div>
+                <div>
+                    <form>
+                        <div className="flex gap-3">
+                            <div className="mb-4">
+                                <label
+                                    className="block text-white text-sm font-bold mb-2"
+                                    htmlFor="side"
+                                >
+                                    Coin :
+                                </label>
+                                <select
+                                    name="symbol"
+                                    value={input.symbol}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Coin</option>
+                                    <option value="USDT_THB">USDT_THB</option>
+                                    <option value="BTC_THB">BTC_USDT</option>
+                                    <option value="ETH_THB">ETH_THB</option>
+                                    <option value="BNB_THB">BNB_THB</option>
+                                </select>
+                            </div>
+                            <div className="mb-4">
+                                <label
+                                    className="block text-white text-sm font-bold mb-2"
+                                    htmlFor="symbol"
+                                >
+                                    Side :
+                                </label>
+                                <select
+                                    name="side"
+                                    value={input.side}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Side</option>
+                                    <option value="BUY">BUY</option>
+                                    <option value="SELL">SELL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                className="block text-white text-sm font-bold mb-2"
+                                htmlFor="price"
+                            >
+                                Price:
+                            </label>
+                            <Input
+                                type="number"
+                                id="price"
+                                name="price"
+                                value={input.price}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                className="block text-white text-sm font-bold mb-2"
+                                htmlFor="amount"
+                            >
+                                Amount:
+                            </label>
+                            <Input
+                                type="number"
+                                id="amount"
+                                name="amount"
+                                value={input.amount}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                className="block text-white text-sm font-bold mb-2"
+                                htmlFor="symbol"
+                            >
+                                Customer :
+                            </label>
+                            <select
+                                name="customer"
+                                value={input.customer}
+                                onChange={handleInputChange}
+                            >
+                                <option value="">Customer</option>
+                                <option value="BTZ">BTZ</option>
+                                <option value="INVX">INVX</option>
+                            </select>
+                        </div>
+                        <div className="text-center">
+                            <Button type="button" onClick={handleAddOrder}>
+                                Add Order
+                            </Button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
