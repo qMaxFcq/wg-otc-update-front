@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "@/service/Navbar";
-import AddOrderPage from "./AddOrderPage";
-import History from "./History";
+import AddOrderPage from "../components/custom/AddOrderPage";
 
 const HomePage: React.FC = () => {
     return (

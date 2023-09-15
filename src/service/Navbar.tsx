@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     return (
@@ -10,13 +11,17 @@ export default function Navbar() {
                 </Avatar>
                 <p className=" text-2xl">OTC Record</p>
             </div>
-            <div className=" flex flex-col text-xl">
-                <button className="hover:bg-slate-700 rounded-sm">
-                    Add New OTC
-                </button>
-                <button className="hover:bg-slate-700 rounded-sm">
-                    History
-                </button>
+            <div className=" flex flex-col text-xl justify-center">
+                <Link to="/">
+                    <button className="hover:bg-slate-700 rounded-sm">
+                        Add New OTC
+                    </button>
+                </Link>
+                <Link to="/history">
+                    <button className="hover:bg-slate-700 rounded-sm">
+                        History
+                    </button>
+                </Link>
             </div>
             <div className="items-center">Alpha 1.0</div>
         </div>
