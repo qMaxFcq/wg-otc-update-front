@@ -1,9 +1,11 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import * as AddNewOrderAPi from "../api/add-order-api";
+import * as EditOrderAPI from "../api/edit-order-api";
 
 // Define the shape of the context value
 interface AddNewOrderContextValue {
     addNewOrderOTC: (input: any) => Promise<void>;
+    editOrderOTC: (id: any, input: any) => Promise<void>;
 }
 
 // Create the context
@@ -39,8 +41,17 @@ export const AddNewOrderContextProvider = ({
         }
     };
 
+    const editOrderOTC = async (id: any, input: any) => {
+        try {
+            await EditOrderAPI.editOrder(id, input);
+        } catch (error) {
+            console.log("error from editOrderOTC", error);
+        }
+    };
+
     const contextValue: AddNewOrderContextValue = {
         addNewOrderOTC,
+        editOrderOTC,
     };
 
     return (
