@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from "react";
+import { createContext, useContext, ReactNode, useState } from "react";
 import * as GetOrderHistoryAPI from "../api/order-detail-api";
 
 interface OrderHistoryType {
@@ -6,7 +6,7 @@ interface OrderHistoryType {
 }
 
 interface GetOtcHistoryValue {
-    fetchOrderOTC: () => void;
+    fetchOrderOTC: (page: number, formattedDate: any) => void;
     orderHistory: OrderHistoryType | null;
 }
 
@@ -37,9 +37,11 @@ export const GetOrderContextProvider = ({
         null
     );
 
-    const fetchOrderOTC = async (page = 1) => {
+    const fetchOrderOTC = async (requestData: any) => {
         try {
-            const res = await GetOrderHistoryAPI.GetOrderHistory(page);
+            console.log(requestData);
+
+            const res = await GetOrderHistoryAPI.GetOrderHistory(requestData);
             setOrderHistory(res.data);
         } catch (error) {
             console.log("error from addNewOrderOTC", error);

@@ -22,7 +22,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useGetOrderContext } from "@/context/getOrderHistoryContext";
 import * as EditAPI from "../../api/edit-order-api";
@@ -49,7 +48,9 @@ export default function History() {
               month: "2-digit",
               day: "2-digit",
           })
-        : "";
+        : null;
+
+    // console.log(formattedDate);
 
     useEffect(() => {
         fetchOrderOTC();
@@ -59,21 +60,27 @@ export default function History() {
         setEditedOrder(order);
     };
 
-    const handleSaveEdit = async (e: any) => {
+    const handleSaveEdit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const editedData = {
-            id: editedOrder.id,
-            symbol: editedOrder.symbol,
-            side: editedOrder.side,
-            price: editedOrder.price,
-            amount: editedOrder.amount,
-            customer: editedOrder.customer,
-        };
+        if (editedOrder) {
+            const editedData = {
+                id: editedOrder.id,
+                symbol: editedOrder.symbol,
+                side: editedOrder.side,
+                price: editedOrder.price,
+                amount: editedOrder.amount,
+                customer: editedOrder.customer,
+            };
 
-        // เรียกใช้งาน EditAPI.editOrder() โดยส่งข้อมูลที่แก้ไข
-        const res = await EditAPI.editOrder(editedOrder.id, editedData);
-        setEditedOrder(null);
-        fetchOrderOTC();
+            try {
+                // เรียกใช้งาน EditAPI.editOrder() โดยส่งข้อมูลที่แก้ไข
+                const res = await EditAPI.editOrder(editedOrder.id, editedData);
+                setEditedOrder(null);
+                fetchOrderOTC();
+            } catch (error) {
+                console.log("Error from handleSaveEdit", error);
+            }
+        }
     };
 
     const nextPage = () => {
@@ -85,8 +92,14 @@ export default function History() {
     };
 
     useEffect(() => {
-        fetchOrderOTC(currentPage);
-    }, [currentPage]);
+        const requestData = {
+            formattedDate,
+            currentPage,
+        };
+        // console.log(requestData);
+
+        fetchOrderOTC(requestData);
+    }, [formattedDate, currentPage]);
 
     if (!orderHistory) {
         return <div className="m-auto">Loading...</div>;
