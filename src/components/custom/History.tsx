@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
     Table,
     TableBody,
@@ -18,7 +19,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -26,7 +26,6 @@ import { cn } from "@/lib/utils";
 import { useGetOrderContext } from "@/context/getOrderHistoryContext";
 import * as EditAPI from "../../api/edit-order-api";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
 
 interface Order {
     id: number;
@@ -39,7 +38,7 @@ interface Order {
 export default function History() {
     const { orderHistory, fetchOrderOTC } = useGetOrderContext();
     const [currentPage, setCurrentPage] = useState(1);
-    const [date, setDate] = React.useState<Date>();
+    const [date, setDate] = useState<Date | null>(null);
     const [editedOrder, setEditedOrder] = useState<Order | null>(null);
 
     const formattedDate = date
@@ -49,12 +48,6 @@ export default function History() {
               day: "2-digit",
           })
         : null;
-
-    // console.log(formattedDate);
-
-    useEffect(() => {
-        fetchOrderOTC();
-    }, []);
 
     const handleEditOrder = (order: Order) => {
         setEditedOrder(order);
@@ -73,10 +66,13 @@ export default function History() {
             };
 
             try {
-                // เรียกใช้งาน EditAPI.editOrder() โดยส่งข้อมูลที่แก้ไข
-                const res = await EditAPI.editOrder(editedOrder.id, editedData);
+                await EditAPI.editOrder(editedOrder.id, editedData);
                 setEditedOrder(null);
-                fetchOrderOTC();
+                const requestData = {
+                    formattedDate,
+                    currentPage,
+                };
+                fetchOrderOTC(requestData);
             } catch (error) {
                 console.log("Error from handleSaveEdit", error);
             }
@@ -96,8 +92,6 @@ export default function History() {
             formattedDate,
             currentPage,
         };
-        // console.log(requestData);
-
         fetchOrderOTC(requestData);
     }, [formattedDate, currentPage]);
 
@@ -179,7 +173,6 @@ export default function History() {
                                             {Number(order.cost).toFixed(2)}
                                         </TableCell>
                                         <TableCell>{order.customer}</TableCell>
-
                                         <TableCell>
                                             <button
                                                 onClick={() =>
@@ -196,7 +189,6 @@ export default function History() {
                 </div>
             </div>
 
-            {/* เงื่อนไขการแสดง Popup */}
             {editedOrder && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center m-auto">
                     <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-[350px]">
@@ -270,7 +262,6 @@ export default function History() {
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
-
                                 <p>Edit Price</p>
                                 <Input
                                     type="text"
@@ -286,7 +277,6 @@ export default function History() {
                             </div>
                             <div className="mb-4">
                                 <p>Edit Amount</p>
-
                                 <Input
                                     type="text"
                                     id="editedAmount"
