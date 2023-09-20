@@ -1,4 +1,5 @@
 import axios from "axios";
 import { SERVER } from "../config/config";
 
-export const GetOrderHistory = () => axios.get(`${SERVER}order/orderhistory`);
+export const GetOrderHistory = (page) =>
+    axios.get(`${SERVER}order/orderhistory?page=${page}`);

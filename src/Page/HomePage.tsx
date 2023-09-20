@@ -4,7 +4,7 @@ import AddOrderPage from "../components/custom/AddOrderPage";
 
 const HomePage: React.FC = () => {
     return (
-        <div className="flex bg-slate-900">
+        <div className="flex ">
             <Navbar />
             <AddOrderPage />
             {/* <History /> */}

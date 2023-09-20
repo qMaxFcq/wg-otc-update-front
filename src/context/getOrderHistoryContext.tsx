@@ -37,9 +37,9 @@ export const GetOrderContextProvider = ({
         null
     );
 
-    const fetchOrderOTC = async () => {
+    const fetchOrderOTC = async (page = 1) => {
         try {
-            const res = await GetOrderHistoryAPI.GetOrderHistory();
+            const res = await GetOrderHistoryAPI.GetOrderHistory(page);
             setOrderHistory(res.data);
         } catch (error) {
             console.log("error from addNewOrderOTC", error);

@@ -1,7 +1,6 @@
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -14,13 +13,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 
-import { useGetOrderContext } from "@/context/getOrderHistory";
-import { useAddNewOrderContext } from "@/context/addNewOrderContext";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useGetOrderContext } from "@/context/getOrderHistoryContext";
 import * as EditAPI from "../../api/edit-order-api";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Order {
     id: number;
@@ -32,12 +39,21 @@ interface Order {
 
 export default function History() {
     const { orderHistory, fetchOrderOTC } = useGetOrderContext();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [date, setDate] = React.useState<Date>();
+    const [editedOrder, setEditedOrder] = useState<Order | null>(null);
+
+    const formattedDate = date
+        ? date.toLocaleDateString("en-GB", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          })
+        : "";
 
     useEffect(() => {
         fetchOrderOTC();
     }, []);
-
-    const [editedOrder, setEditedOrder] = useState<Order | null>(null);
 
     const handleEditOrder = (order: Order) => {
         setEditedOrder(order);
@@ -60,15 +76,64 @@ export default function History() {
         fetchOrderOTC();
     };
 
+    const nextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+
+    const prevPage = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+
+    useEffect(() => {
+        fetchOrderOTC(currentPage);
+    }, [currentPage]);
+
     if (!orderHistory) {
-        return <div>Loading...</div>;
+        return <div className="m-auto">Loading...</div>;
     }
 
     return (
-        <div className="w-[800px] border-2 rounded-md m-auto bg-white">
+        <div className="w-[800px] h-700 rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
             <div className="m-auto w-[800px] p-5">
                 <div className="text-4xl mb-2">Order History</div>
                 <div className="">
+                    <div className="space-x-2">
+                        <Button onClick={prevPage} disabled={currentPage <= 1}>
+                            Previous
+                        </Button>
+                        <Button onClick={nextPage}>Next</Button>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-[280px] justify-start text-left font-normal",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {date ? (
+                                        date.toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                        })
+                                    ) : (
+                                        <span>Pick a date</span>
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -121,7 +186,7 @@ export default function History() {
             {/* เงื่อนไขการแสดง Popup */}
             {editedOrder && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center m-auto">
-                    <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
+                    <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-[350px]">
                         <form onSubmit={handleSaveEdit}>
                             <div className="mb-4">
                                 <p>Edited Coin</p>

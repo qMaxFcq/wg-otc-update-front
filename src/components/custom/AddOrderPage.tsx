@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Card,
     CardContent,
@@ -36,6 +36,15 @@ const initialInput: InputState = {
 export default function AddOrderPage() {
     const { addNewOrderOTC } = useAddNewOrderContext();
     const [input, setInput] = useState<InputState>(initialInput);
+    const [selectedSymbol, setSelectedSymbol] = useState<string>("");
+    const [selectedSide, setSelectedSide] = useState<string>("");
+    const [selectedCustomer, setSelectedCustomer] = useState<string>("");
+
+    useEffect(() => {
+        setSelectedSymbol(input.symbol);
+        setSelectedSide(input.side);
+        setSelectedCustomer(input.customer);
+    }, [input.symbol, input.side, input.customer]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -49,6 +58,11 @@ export default function AddOrderPage() {
     };
 
     const handleAddOrder = async () => {
+        if (input.price === "" || input.amount === "") {
+            window.alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+            return;
+        }
+
         try {
             await addNewOrderOTC(input);
             window.alert("เพิ่มข้อมูลเรียบร้อย");
@@ -59,14 +73,16 @@ export default function AddOrderPage() {
     };
 
     return (
-        <div className="w-[1200px] border-2 rounded-md m-auto">
+        <div className="w-[1200px] rounded-md m-auto">
             <div className="m-auto w-[550px] p-5">
                 <div className="text-4xl text-white mb-2">Add New OTC</div>
                 <div>
-                    <Card>
+                    <Card className="border-2 border-black  shadow-2xl">
                         <CardHeader>
-                            <CardTitle>Card Title</CardTitle>
-                            <CardDescription>Card Description</CardDescription>
+                            <CardTitle className="text-4xl font-extralight">
+                                Add New Order
+                            </CardTitle>
+                            {/* <CardDescription>Card Description</CardDescription> */}
                         </CardHeader>
                         <div className="flex flex-row">
                             <CardContent>
@@ -79,7 +95,7 @@ export default function AddOrderPage() {
                                             symbol: String(value),
                                         });
                                     }}
-                                    defaultValue={String(input.customer)}
+                                    value={selectedSymbol}
                                 >
                                     <SelectTrigger className="w-[140px]">
                                         <SelectValue placeholder="Select Coin" />
@@ -110,7 +126,7 @@ export default function AddOrderPage() {
                                             side: String(value),
                                         });
                                     }}
-                                    defaultValue={String(input.customer)}
+                                    value={selectedSide}
                                 >
                                     <SelectTrigger className="w-[140px]">
                                         <SelectValue placeholder="Select Type" />
@@ -156,7 +172,7 @@ export default function AddOrderPage() {
                                         customer: String(value),
                                     });
                                 }}
-                                defaultValue={String(input.customer)}
+                                value={selectedCustomer}
                             >
                                 <SelectTrigger className="w-[140px]">
                                     <SelectValue placeholder="Select" />
