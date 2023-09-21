@@ -104,11 +104,7 @@ export default function History() {
             <div className="m-auto w-[800px] p-5">
                 <div className="text-4xl mb-2">Order History</div>
                 <div className="">
-                    <div className="space-x-2">
-                        <Button onClick={prevPage} disabled={currentPage <= 1}>
-                            Previous
-                        </Button>
-                        <Button onClick={nextPage}>Next</Button>
+                    <div className="space-x-2 flex justify-end mb-1">
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button
@@ -139,6 +135,10 @@ export default function History() {
                                 />
                             </PopoverContent>
                         </Popover>
+                        <Button onClick={prevPage} disabled={currentPage <= 1}>
+                            Previous
+                        </Button>
+                        <Button onClick={nextPage}>Next</Button>
                     </div>
 
                     <Table>
