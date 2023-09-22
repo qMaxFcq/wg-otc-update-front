@@ -4,8 +4,8 @@ import * as EditOrderAPI from "../api/edit-order-api";
 
 // Define the shape of the context value
 interface AddNewOrderContextValue {
-    addNewOrderOTC: (input: any) => Promise<void>;
-    editOrderOTC: (id: any, input: any) => Promise<void>;
+    addNewOrderOTC: (input: any, token: string) => Promise<void>;
+    editOrderOTC: (id: any, input: any, token: string) => Promise<void>;
 }
 
 // Create the context
@@ -33,17 +33,17 @@ interface AddNewOrderContextProviderProps {
 export const AddNewOrderContextProvider = ({
     children,
 }: AddNewOrderContextProviderProps) => {
-    const addNewOrderOTC = async (input: any) => {
+    const addNewOrderOTC = async (input: any, token: string) => {
         try {
-            await AddNewOrderAPi.addNewOrderToDB(input);
+            await AddNewOrderAPi.addNewOrderToDB(input, token);
         } catch (error) {
             console.log("error from addNewOrderOTC", error);
         }
     };
 
-    const editOrderOTC = async (id: any, input: any) => {
+    const editOrderOTC = async (id: any, input: any, token: string) => {
         try {
-            await EditOrderAPI.editOrder(id, input);
+            await EditOrderAPI.editOrder(id, input, token);
         } catch (error) {
             console.log("error from editOrderOTC", error);
         }

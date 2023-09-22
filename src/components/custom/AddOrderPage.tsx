@@ -33,6 +33,7 @@ export default function AddOrderPage() {
     const [selectedSymbol, setSelectedSymbol] = useState<string>("");
     const [selectedSide, setSelectedSide] = useState<string>("");
     const [selectedCustomer, setSelectedCustomer] = useState<string>("");
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         setSelectedSymbol(input.symbol);
@@ -58,7 +59,7 @@ export default function AddOrderPage() {
         }
 
         try {
-            await addNewOrderOTC(input);
+            await addNewOrderOTC(input, token);
             window.alert("เพิ่มข้อมูลเรียบร้อย");
             setInput(initialInput);
         } catch (error) {
@@ -69,11 +70,11 @@ export default function AddOrderPage() {
     return (
         <div className="w-[1200px] rounded-md m-auto">
             <div className="m-auto w-[550px] p-5">
-                <div className="text-4xl text-white mb-2">Add New OTC</div>
+                {/* <div className="text-4xl text-black mb-2">Add New OTC</div> */}
                 <div>
                     <Card className="border-2 border-black  shadow-2xl">
                         <CardHeader>
-                            <CardTitle className="text-4xl font-extralight">
+                            <CardTitle className="text-4xl font-extralight ">
                                 Add New Order
                             </CardTitle>
                             {/* <CardDescription>Card Description</CardDescription> */}
@@ -176,14 +177,16 @@ export default function AddOrderPage() {
                                     <SelectItem value="INNOX">INNOX</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Button
-                                className="mt-5 bg-slate-500"
-                                type="button"
-                                variant="outline"
-                                onClick={handleAddOrder}
-                            >
-                                Button
-                            </Button>
+                            <div className="mt-5 flex justify-center">
+                                <Button
+                                    className="bg-slate-500 w-[200px] h-[50px]"
+                                    type="button"
+                                    variant="outline"
+                                    onClick={handleAddOrder}
+                                >
+                                    Button
+                                </Button>
+                            </div>
                         </CardContent>
                     </Card>
                 </div>

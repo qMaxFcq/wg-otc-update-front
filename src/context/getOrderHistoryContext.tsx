@@ -39,8 +39,6 @@ export const GetOrderContextProvider = ({
 
     const fetchOrderOTC = async (requestData: any) => {
         try {
-            console.log(requestData);
-
             const res = await GetOrderHistoryAPI.GetOrderHistory(requestData);
             setOrderHistory(res.data);
         } catch (error) {

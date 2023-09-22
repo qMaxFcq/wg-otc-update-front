@@ -1,12 +1,14 @@
 import axios from "axios";
 import { SERVER } from "../config/config";
 
-export const GetOrderHistory = ({ currentPage, formattedDate }) => {
-    // สร้าง query string ใน URL โดยรวม formattedDate (ถ้ามี) ในคำขอ
-    console.log(currentPage);
+export const GetOrderHistory = ({ currentPage, formattedDate, token }) => {
     const queryString = formattedDate
         ? `page=${currentPage}&selectedDate=${formattedDate}`
         : `page=${currentPage}`;
 
-    return axios.get(`${SERVER}order/orderhistory?${queryString}`);
+    return axios.get(`${SERVER}order/orderhistory?${queryString}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 };

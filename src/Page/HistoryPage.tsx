@@ -4,7 +4,7 @@ import History from "../components/custom/History";
 
 const HistoryPage: React.FC = () => {
     return (
-        <div className="flex ">
+        <div className="flex bg-gradient-to-r from-indigo-500">
             <Navbar />
             <History />
         </div>

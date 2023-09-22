@@ -24,7 +24,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGetOrderContext } from "@/context/getOrderHistoryContext";
-import * as EditAPI from "../../api/edit-order-api";
+import { useAddNewOrderContext } from "@/context/addNewOrderContext";
 import { Input } from "@/components/ui/input";
 
 interface Order {
@@ -37,9 +37,11 @@ interface Order {
 
 export default function History() {
     const { orderHistory, fetchOrderOTC } = useGetOrderContext();
+    const { editOrderOTC } = useAddNewOrderContext();
     const [currentPage, setCurrentPage] = useState(1);
     const [date, setDate] = useState<Date | null>(null);
     const [editedOrder, setEditedOrder] = useState<Order | null>(null);
+    const token = localStorage.getItem("token");
 
     const formattedDate = date
         ? date.toLocaleDateString("en-GB", {
@@ -66,11 +68,12 @@ export default function History() {
             };
 
             try {
-                await EditAPI.editOrder(editedOrder.id, editedData);
+                await editOrderOTC(editedOrder.id, editedData, token);
                 setEditedOrder(null);
                 const requestData = {
                     formattedDate,
                     currentPage,
+                    token,
                 };
                 fetchOrderOTC(requestData);
             } catch (error) {
@@ -91,17 +94,22 @@ export default function History() {
         const requestData = {
             formattedDate,
             currentPage,
+            token,
         };
         fetchOrderOTC(requestData);
     }, [formattedDate, currentPage]);
 
-    if (!orderHistory) {
-        return <div className="m-auto">Loading...</div>;
+    if (!orderHistory || !orderHistory.data) {
+        return (
+            <div className="fixed ml-64 inset-0 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-indigo-500"></div>
+            </div>
+        );
     }
 
     return (
-        <div className="w-[800px] h-700 rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
-            <div className="m-auto w-[800px] p-5">
+        <div className="w-[750px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
+            <div className="m-auto w-[750px] p-3">
                 <div className="text-4xl mb-2">Order History</div>
                 <div className="">
                     <div className="space-x-2 flex justify-end mb-1">
@@ -257,8 +265,8 @@ export default function History() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="BTZ">BTZ</SelectItem>
-                                        <SelectItem value="INNOX">
-                                            INNOX
+                                        <SelectItem value="INVX">
+                                            INVX
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>

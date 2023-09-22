@@ -3,13 +3,16 @@ import App from "./App.tsx";
 import "./index.css";
 import { AddNewOrderContextProvider } from "./context/addNewOrderContext.tsx";
 import { GetOrderContextProvider } from "./context/getOrderHistoryContext.tsx";
+import { LoginContextProvider } from "./context/loginContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     // <React.StrictMode>
-    <AddNewOrderContextProvider>
-        <GetOrderContextProvider>
-            <App />
-        </GetOrderContextProvider>
-    </AddNewOrderContextProvider>
+    <LoginContextProvider>
+        <AddNewOrderContextProvider>
+            <GetOrderContextProvider>
+                <App />
+            </GetOrderContextProvider>
+        </AddNewOrderContextProvider>
+    </LoginContextProvider>
     // </React.StrictMode>
 );

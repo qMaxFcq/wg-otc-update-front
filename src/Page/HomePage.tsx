@@ -4,7 +4,7 @@ import AddOrderPage from "../components/custom/AddOrderPage";
 
 const HomePage: React.FC = () => {
     return (
-        <div className="flex ">
+        <div className="flex bg-gradient-to-r from-indigo-500">
             <Navbar />
             <AddOrderPage />
             {/* <History /> */}
