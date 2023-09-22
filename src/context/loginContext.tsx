@@ -30,11 +30,11 @@ export const LoginContextProvider = ({
     children,
 }: LoginContextProviderProps) => {
     const userLogin = async (loginData: any) => {
-        console.log(loginData);
         try {
             const response = await LoginApi.login(loginData);
             // console.log("Response from userLogin:", response.data.token);
             localStorage.setItem("token", response.data.token);
+            return response;
 
             // หรือจะส่งค่า response ไปยังส่วนอื่นของแอปพลิเคชันก็ได้
         } catch (error) {

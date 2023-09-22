@@ -32,6 +32,11 @@ export default function LoginPage({}: Props) {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        if (!email || !password) {
+            window.alert("Email and Password are required");
+            return;
+        }
+
         const loginData = {
             email: email,
             password: password,
@@ -39,10 +44,21 @@ export default function LoginPage({}: Props) {
 
         // console.log(loginData);
         setIsLoading(true);
-        await userLogin(loginData);
-        setIsLoading(false);
-
-        window.location.reload();
+        try {
+            const response = await userLogin(loginData);
+            if (response && response.status === 200) {
+                setIsLoading(false);
+                window.location.reload();
+            } else {
+                window.alert("Email or Password Wrong");
+                setIsLoading(true);
+                window.location.reload();
+            }
+        } catch (error) {
+            setIsLoading(false);
+            console.error("An error occurred:", error);
+            // จัดการข้อผิดพลาดตามที่คุณต้องการ
+        }
     };
 
     return (
