@@ -68,7 +68,7 @@ export default function AddOrderPage() {
     };
 
     return (
-        <div className="w-[1200px] rounded-md m-auto">
+        <div className="w-[550px] rounded-md m-auto ">
             <div className="m-auto w-[550px] p-5">
                 {/* <div className="text-4xl text-black mb-2">Add New OTC</div> */}
                 <div>

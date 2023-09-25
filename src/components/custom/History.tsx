@@ -108,11 +108,11 @@ export default function History() {
     }
 
     return (
-        <div className="w-[750px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
-            <div className="m-auto w-[750px] p-3">
-                <div className="text-4xl mb-2">Order History</div>
+        <div className="w-[700px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
+            <div className="m-auto w-[700px] p-3">
+                <div className="text-3xl">Order History</div>
                 <div className="">
-                    <div className="space-x-2 flex justify-end mb-1">
+                    <div className="space-x-2 flex justify-end ">
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button
@@ -146,7 +146,12 @@ export default function History() {
                         <Button onClick={prevPage} disabled={currentPage <= 1}>
                             Previous
                         </Button>
-                        <Button onClick={nextPage}>Next</Button>
+                        <Button
+                            onClick={nextPage}
+                            disabled={orderHistory.data.length < 10}
+                        >
+                            Next
+                        </Button>
                     </div>
 
                     <Table>
@@ -162,7 +167,7 @@ export default function History() {
                                 <TableHead>Edit</TableHead>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody className="text-sm">
                             {orderHistory.data
                                 .slice()
                                 .sort((a: Order, b: Order) => a.id - b.id)
