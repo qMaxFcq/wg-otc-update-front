@@ -20,11 +20,11 @@ interface InputState {
 }
 
 const initialInput: InputState = {
-    side: "",
-    symbol: "",
+    side: "SELL",
+    symbol: "USDT_THB",
     price: "",
     amount: "",
-    customer: "",
+    customer: "BTZ",
 };
 
 export default function AddOrderPage() {
@@ -174,7 +174,7 @@ export default function AddOrderPage() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="BTZ">BTZ</SelectItem>
-                                    <SelectItem value="INNOX">INNOX</SelectItem>
+                                    <SelectItem value="INVX">INVX</SelectItem>
                                 </SelectContent>
                             </Select>
                             <div className="mt-5 flex justify-center">

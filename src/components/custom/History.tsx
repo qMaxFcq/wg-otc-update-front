@@ -33,6 +33,8 @@ interface Order {
     price: number;
     amount: number;
     cost: number;
+    customer: string;
+    side: string;
 }
 
 export default function History() {
@@ -110,7 +112,7 @@ export default function History() {
     return (
         <div className="w-[700px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
             <div className="m-auto w-[700px] p-3">
-                <div className="text-3xl">Order History</div>
+                <div className="text-2xl">Order History</div>
                 <div className="">
                     <div className="space-x-2 flex justify-end ">
                         <Popover>
@@ -180,11 +182,19 @@ export default function History() {
                                             {Number(order.price).toFixed(2)}
                                         </TableCell>
                                         <TableCell>
-                                            {Number(order.amount).toFixed(2)}
+                                            {Number(
+                                                order.amount
+                                            ).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                            })}
                                         </TableCell>
                                         <TableCell>
-                                            {Number(order.cost).toFixed(2)}
+                                            {Number(order.cost).toLocaleString(
+                                                undefined,
+                                                { minimumFractionDigits: 2 }
+                                            )}
                                         </TableCell>
+
                                         <TableCell>{order.customer}</TableCell>
                                         <TableCell>
                                             <button
@@ -204,88 +214,111 @@ export default function History() {
 
             {editedOrder && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center m-auto">
-                    <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-[350px]">
+                    <div className="bg-white p-8 border-black border-2 rounded-lg shadow-md w-[530px]">
+                        <div className="text-3xl mb-6">Edit From</div>
                         <form onSubmit={handleSaveEdit}>
                             <div className="mb-4">
-                                <p>Edited Coin</p>
-                                <Select
-                                    value={editedOrder.symbol}
-                                    onValueChange={(value) => {
-                                        setEditedOrder({
-                                            ...editedOrder,
-                                            symbol: String(value),
-                                        });
-                                    }}
-                                >
-                                    <SelectTrigger className="w-[140px]">
-                                        <SelectValue placeholder="Select Coin" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="USDT_THB">
-                                            USDT_THB
-                                        </SelectItem>
-                                        <SelectItem value="BTC_THB">
-                                            BTC_THB
-                                        </SelectItem>
-                                        <SelectItem value="ETH_THB">
-                                            ETH_THB
-                                        </SelectItem>
-                                        <SelectItem value="BNB_THB">
-                                            BNB_THB
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <p>Edited Side</p>
-                                <Select
-                                    value={editedOrder.side}
-                                    onValueChange={(value) => {
-                                        setEditedOrder({
-                                            ...editedOrder,
-                                            side: String(value),
-                                        });
-                                    }}
-                                >
-                                    <SelectTrigger className="w-[140px]">
-                                        <SelectValue placeholder="Select Type" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="BUY">BUY</SelectItem>
-                                        <SelectItem value="SELL">
-                                            SELL
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <p>Edited Exchange</p>
-                                <Select
-                                    value={editedOrder.customer}
-                                    onValueChange={(value) => {
-                                        setEditedOrder({
-                                            ...editedOrder,
-                                            customer: String(value),
-                                        });
-                                    }}
-                                >
-                                    <SelectTrigger className="w-[140px]">
-                                        <SelectValue placeholder="Select" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="BTZ">BTZ</SelectItem>
-                                        <SelectItem value="INVX">
-                                            INVX
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <div className="flex flex-row gap-6 mb-4">
+                                    <div className="flex flex-col">
+                                        <div>
+                                            <p>Edited Coin</p>
+                                        </div>
+                                        <Select
+                                            value={editedOrder.symbol}
+                                            onValueChange={(value) => {
+                                                setEditedOrder({
+                                                    ...editedOrder,
+                                                    symbol: String(value),
+                                                });
+                                            }}
+                                        >
+                                            <SelectTrigger className="w-[140px]">
+                                                <SelectValue placeholder="Select Coin" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="USDT_THB">
+                                                    USDT_THB
+                                                </SelectItem>
+                                                <SelectItem value="BTC_THB">
+                                                    BTC_THB
+                                                </SelectItem>
+                                                <SelectItem value="ETH_THB">
+                                                    ETH_THB
+                                                </SelectItem>
+                                                <SelectItem value="BNB_THB">
+                                                    BNB_THB
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <p>Edited Side</p>
+                                        <Select
+                                            value={editedOrder.side}
+                                            onValueChange={(value) => {
+                                                setEditedOrder({
+                                                    ...editedOrder,
+                                                    side: String(value),
+                                                });
+                                            }}
+                                        >
+                                            <SelectTrigger className="w-[140px]">
+                                                <SelectValue placeholder="Select Type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="BUY">
+                                                    BUY
+                                                </SelectItem>
+                                                <SelectItem value="SELL">
+                                                    SELL
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <p>Edited Exchange</p>
+                                        <Select
+                                            value={editedOrder.customer}
+                                            onValueChange={(value) => {
+                                                setEditedOrder({
+                                                    ...editedOrder,
+                                                    customer: String(value),
+                                                });
+                                            }}
+                                        >
+                                            <SelectTrigger className="w-[140px]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="BTZ">
+                                                    BTZ
+                                                </SelectItem>
+                                                <SelectItem value="INVX">
+                                                    INVX
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
                                 <p>Edit Price</p>
                                 <Input
                                     type="text"
                                     id="editedPrice"
                                     value={editedOrder.price}
-                                    onChange={(e) =>
-                                        setEditedOrder({
-                                            ...editedOrder,
-                                            price: parseFloat(e.target.value),
-                                        })
-                                    }
+                                    onChange={(e) => {
+                                        const value = String(e.target.value);
+                                        if (!isNaN(value)) {
+                                            setEditedOrder({
+                                                ...editedOrder,
+                                                price: String(value),
+                                            });
+                                        } else {
+                                            setEditedOrder({
+                                                ...editedOrder,
+                                                price: 0,
+                                            });
+                                        }
+                                    }}
                                 />
                             </div>
                             <div className="mb-4">
@@ -294,12 +327,20 @@ export default function History() {
                                     type="text"
                                     id="editedAmount"
                                     value={editedOrder.amount}
-                                    onChange={(e) =>
-                                        setEditedOrder({
-                                            ...editedOrder,
-                                            amount: parseFloat(e.target.value),
-                                        })
-                                    }
+                                    onChange={(e) => {
+                                        const value = String(e.target.value);
+                                        if (!isNaN(value)) {
+                                            setEditedOrder({
+                                                ...editedOrder,
+                                                amount: String(value),
+                                            });
+                                        } else {
+                                            setEditedOrder({
+                                                ...editedOrder,
+                                                amount: 0,
+                                            });
+                                        }
+                                    }}
                                     className="w-full border border-gray-300 rounded-md py-2 px-3 mt-1 focus:outline-none focus:border-blue-500"
                                 />
                             </div>
