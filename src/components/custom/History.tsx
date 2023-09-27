@@ -175,7 +175,10 @@ export default function History() {
                                 .sort((a: Order, b: Order) => a.id - b.id)
                                 .map((order: Order, index: number) => (
                                     <TableRow key={order.id}>
-                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>
+                                            {(currentPage - 1) * 10 + index + 1}
+                                        </TableCell>{" "}
+                                        {/* คำนวณเลข No. ตามหน้าและ index */}
                                         <TableCell>{order.symbol}</TableCell>
                                         <TableCell>{order.side}</TableCell>
                                         <TableCell>
@@ -194,7 +197,6 @@ export default function History() {
                                                 { minimumFractionDigits: 2 }
                                             )}
                                         </TableCell>
-
                                         <TableCell>{order.customer}</TableCell>
                                         <TableCell>
                                             <button
@@ -295,6 +297,15 @@ export default function History() {
                                                 </SelectItem>
                                                 <SelectItem value="INVX">
                                                     INVX
+                                                </SelectItem>
+                                                <SelectItem value="OKX">
+                                                    OKX
+                                                </SelectItem>
+                                                <SelectItem value="BK">
+                                                    BK
+                                                </SelectItem>
+                                                <SelectItem value="Z">
+                                                    Z
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>

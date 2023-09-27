@@ -2,15 +2,14 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserProfileContext } from "@/context/userContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import WithdrawDepositCoin from "@/components/custom/components_for_wid_depo/WithdrawDepositCoin";
 
 export default function UserProfile() {
     const { userProfileData, fetchUserProfile } = useUserProfileContext();
@@ -31,9 +30,9 @@ export default function UserProfile() {
     // console.log(userProfileData);
 
     return (
-        <div className="mr-2 mt-2 w-40">
-            <div className="items-center">
-                <div className="flex justify-around p-3 m-1 flex-row -space-x-1 border  rounded-lg bg-white">
+        <div className="w-60 border-2 ">
+            <div className="flex justify-end w-auto items-start">
+                <div className="flex justify-around w-32 p-3 m-1 -space-x-1 border  rounded-lg bg-white">
                     <Avatar className="w-10 h-10">
                         <AvatarImage src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
                         <AvatarFallback>WG</AvatarFallback>
@@ -42,13 +41,16 @@ export default function UserProfile() {
                         <DropdownMenuTrigger>
                             {userProfileData.username}
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="mr-5 mt-3 ">
+                        <DropdownMenuContent className="mr-1 mt-3 ">
                             <DropdownMenuItem onClick={handleLogout}>
                                 Logout
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
+            </div>
+            <div>
+                <WithdrawDepositCoin />
             </div>
         </div>
     );

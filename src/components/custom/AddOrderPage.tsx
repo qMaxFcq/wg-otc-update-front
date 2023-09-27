@@ -175,6 +175,10 @@ export default function AddOrderPage() {
                                 <SelectContent>
                                     <SelectItem value="BTZ">BTZ</SelectItem>
                                     <SelectItem value="INVX">INVX</SelectItem>
+                                    <SelectItem value="OKX">OKX</SelectItem>
+                                    <SelectItem value="BK">BK</SelectItem>
+                                    <SelectItem value="Z">Z</SelectItem>
+
                                 </SelectContent>
                             </Select>
                             <div className="mt-5 flex justify-center">

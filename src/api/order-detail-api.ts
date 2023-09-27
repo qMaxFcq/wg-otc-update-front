@@ -12,3 +12,15 @@ export const GetOrderHistory = ({ currentPage, formattedDate, token }) => {
         },
     });
 };
+
+export const GetWithdrawDepositAllCoin = ({ formattedDate, token }) => {
+    const queryString = `selectedDate=${formattedDate || ""}`;
+    return axios.get(
+        `${SERVER}order/historywithdrawanddeposit?${queryString}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+};
