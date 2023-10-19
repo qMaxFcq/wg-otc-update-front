@@ -35,6 +35,7 @@ interface Order {
     cost: number;
     customer: string;
     side: string;
+    shop_id: number;
 }
 
 export default function History() {
@@ -67,6 +68,7 @@ export default function History() {
                 price: editedOrder.price,
                 amount: editedOrder.amount,
                 customer: editedOrder.customer,
+                shop_id: editedOrder.shop_id,
             };
 
             try {
@@ -110,8 +112,8 @@ export default function History() {
     }
 
     return (
-        <div className="w-[700px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
-            <div className="m-auto w-[700px] p-3">
+        <div className="w-[750px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
+            <div className="m-auto w-[750px] p-3">
                 <div className="text-2xl">Order History</div>
                 <div className="">
                     <div className="space-x-2 flex justify-end ">
@@ -165,7 +167,8 @@ export default function History() {
                                 <TableHead>Price</TableHead>
                                 <TableHead>Amount</TableHead>
                                 <TableHead>Total</TableHead>
-                                <TableHead>Exchange </TableHead>
+                                <TableHead>Tranfer From</TableHead>
+                                <TableHead>ToExchange </TableHead>
                                 <TableHead>Edit</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -178,10 +181,17 @@ export default function History() {
                                         <TableCell>
                                             {(currentPage - 1) * 10 + index + 1}
                                         </TableCell>{" "}
-                                        {/* คำนวณเลข No. ตามหน้าและ index */}
                                         <TableCell>{order.symbol}</TableCell>
-                                        <TableCell>{order.side}</TableCell>
-                                        <TableCell>
+                                        <TableCell
+                                            className={
+                                                order.side === "SELL"
+                                                    ? "text-red-600"
+                                                    : "text-green-600"
+                                            }
+                                        >
+                                            {order.side}
+                                        </TableCell>
+                                        <TableCell className="text-sky-700">
                                             {Number(order.price).toFixed(2)}
                                         </TableCell>
                                         <TableCell>
@@ -197,7 +207,30 @@ export default function History() {
                                                 { minimumFractionDigits: 2 }
                                             )}
                                         </TableCell>
-                                        <TableCell>{order.customer}</TableCell>
+                                        <TableCell>
+                                            {order.shop_id === 2
+                                                ? "Binance"
+                                                : order.shop_id === 4
+                                                ? "OKX"
+                                                : ""}
+                                        </TableCell>
+                                        <TableCell
+                                            className={
+                                                order.customer === "BTZ"
+                                                    ? "text-green-400"
+                                                    : order.customer === "INVX"
+                                                    ? "text-purple-800"
+                                                    : order.customer === "OKX"
+                                                    ? "text-slate-900"
+                                                    : order.customer === "BK"
+                                                    ? "text-green-300"
+                                                    : order.customer === "Z"
+                                                    ? "text-red-600"
+                                                    : ""
+                                            }
+                                        >
+                                            {order.customer}
+                                        </TableCell>
                                         <TableCell>
                                             <button
                                                 onClick={() =>
@@ -216,7 +249,7 @@ export default function History() {
 
             {editedOrder && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center m-auto">
-                    <div className="bg-white p-8 border-black border-2 rounded-lg shadow-md w-[530px]">
+                    <div className="bg-white p-8 border-black border-2 rounded-lg shadow-md w-[750px]">
                         <div className="text-3xl mb-6">Edit From</div>
                         <form onSubmit={handleSaveEdit}>
                             <div className="mb-4">
@@ -306,6 +339,32 @@ export default function History() {
                                                 </SelectItem>
                                                 <SelectItem value="Z">
                                                     Z
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <p>Edited You Exchange</p>
+                                        <Select
+                                            value={editedOrder?.shop_id}
+                                            onValueChange={(value) => {
+                                                if (editedOrder) {
+                                                    setEditedOrder({
+                                                        ...editedOrder,
+                                                        shop_id: Number(value),
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            <SelectTrigger className="w-[140px]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value={2}>
+                                                    Binance
+                                                </SelectItem>
+                                                <SelectItem value={4}>
+                                                    OKX
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>

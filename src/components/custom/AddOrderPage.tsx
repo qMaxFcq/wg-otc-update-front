@@ -17,6 +17,7 @@ interface InputState {
     price: number | string;
     amount: number | string;
     customer: string;
+    shop_id: string;
 }
 
 const initialInput: InputState = {
@@ -25,6 +26,7 @@ const initialInput: InputState = {
     price: "",
     amount: "",
     customer: "BTZ",
+    shop_id: "2",
 };
 
 export default function AddOrderPage() {
@@ -33,13 +35,16 @@ export default function AddOrderPage() {
     const [selectedSymbol, setSelectedSymbol] = useState<string>("");
     const [selectedSide, setSelectedSide] = useState<string>("");
     const [selectedCustomer, setSelectedCustomer] = useState<string>("");
+    const [selectedYouEx, setSelectedYouEx] = useState<string>();
+
     const token = localStorage.getItem("token");
 
     useEffect(() => {
         setSelectedSymbol(input.symbol);
         setSelectedSide(input.side);
         setSelectedCustomer(input.customer);
-    }, [input.symbol, input.side, input.customer]);
+        setSelectedYouEx(input.shop_id);
+    }, [input.symbol, input.side, input.customer, input.shop_id]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -157,41 +162,67 @@ export default function AddOrderPage() {
                                 />
                             </CardContent>
                         </div>
-                        <CardContent>
-                            <p>Customer</p>
-                            <Select
-                                name="customer"
-                                onValueChange={(value) => {
-                                    setInput({
-                                        ...input,
-                                        customer: String(value),
-                                    });
-                                }}
-                                value={selectedCustomer}
-                            >
-                                <SelectTrigger className="w-[140px]">
-                                    <SelectValue placeholder="Select" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="BTZ">BTZ</SelectItem>
-                                    <SelectItem value="INVX">INVX</SelectItem>
-                                    <SelectItem value="OKX">OKX</SelectItem>
-                                    <SelectItem value="BK">BK</SelectItem>
-                                    <SelectItem value="Z">Z</SelectItem>
-
-                                </SelectContent>
-                            </Select>
-                            <div className="mt-5 flex justify-center">
-                                <Button
-                                    className="bg-slate-500 w-[200px] h-[50px]"
-                                    type="button"
-                                    variant="outline"
-                                    onClick={handleAddOrder}
+                        <div className="flex flex-row">
+                            <CardContent>
+                                <p>Tranfer From</p>
+                                <Select
+                                    name="shop_id"
+                                    onValueChange={(value) => {
+                                        setInput({
+                                            ...input,
+                                            shop_id: String(value),
+                                        });
+                                    }}
+                                    value={selectedYouEx}
                                 >
-                                    Button
-                                </Button>
-                            </div>
-                        </CardContent>
+                                    <SelectTrigger className="w-[140px]">
+                                        <SelectValue placeholder="Select" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="2">
+                                            Binance
+                                        </SelectItem>
+                                        <SelectItem value="4">OKX</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </CardContent>
+                            <CardContent>
+                                <p>To Exchange</p>
+                                <Select
+                                    name="customer"
+                                    onValueChange={(value) => {
+                                        setInput({
+                                            ...input,
+                                            customer: String(value),
+                                        });
+                                    }}
+                                    value={selectedCustomer}
+                                >
+                                    <SelectTrigger className="w-[140px]">
+                                        <SelectValue placeholder="Select" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="BTZ">BTZ</SelectItem>
+                                        <SelectItem value="INVX">
+                                            INVX
+                                        </SelectItem>
+                                        <SelectItem value="OKX">OKX</SelectItem>
+                                        <SelectItem value="BK">BK</SelectItem>
+                                        <SelectItem value="Z">Z</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </CardContent>
+                        </div>
+                        <div className="m-3 flex justify-center">
+                            <Button
+                                className="bg-slate-500 w-[200px] h-[50px]"
+                                type="button"
+                                variant="outline"
+                                onClick={handleAddOrder}
+                            >
+                                Button
+                            </Button>
+                        </div>
                     </Card>
                 </div>
             </div>

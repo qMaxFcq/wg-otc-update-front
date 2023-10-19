@@ -5,16 +5,15 @@ interface OrderHistoryType {
     orderHistory: string;
 }
 
-interface OrdeWithdrawDepositType {
-    orderWithdrawDeposit: string;
-}
+// interface OrdeWithdrawDepositType {
+//     orderWithdrawDeposit: string;
+// }
 
 interface GetOtcHistoryValue {
     fetchOrderOTC: (page: number, formattedDate: any) => void;
-    fetchWithdrawDeposit: (formattedDate: Date, token: string) => void;
-    setDateContext: (newDate: any) => void;
+    // fetchWithdrawDeposit: (formattedDate: Date, token: string) => void;
     orderHistory: OrderHistoryType | null;
-    orderWithdrawDeposit: OrdeWithdrawDepositType | null;
+    // orderWithdrawDeposit: OrdeWithdrawDepositType | null;
 }
 
 const GetOrderOtcContext = createContext<GetOtcHistoryValue | undefined>(
@@ -43,42 +42,35 @@ export const GetOrderContextProvider = ({
     const [orderHistory, setOrderHistory] = useState<OrderHistoryType | null>(
         null
     );
-    const [orderWithdrawDeposit, setOrderWithdrawDeposit] =
-        useState<OrdeWithdrawDepositType | null>(null);
-
-    const [formattedDateCon, setFormattedDate] = useState(null);
+    // const [orderWithdrawDeposit, setOrderWithdrawDeposit] =
+    //     useState<OrdeWithdrawDepositType | null>(null);
 
     const fetchOrderOTC = async (requestData: any) => {
         try {
             const res = await GetOrderHistoryAPI.GetOrderHistory(requestData);
+            // console.log(res.data)
             setOrderHistory(res.data);
         } catch (error) {
             console.log("error from addNewOrderOTC", error);
         }
     };
 
-    const fetchWithdrawDeposit = async (requestData: any) => {
-        try {
-            const res = await GetOrderHistoryAPI.GetWithdrawDepositAllCoin(
-                requestData
-            );
-            setOrderWithdrawDeposit(res.data);
-        } catch (error) {
-            console.log("error from addNewOrderOTC", error);
-        }
-    };
-
-    const setDateContext = (newDate: any) => {
-        setFormattedDate(newDate);
-        console.log(formattedDateCon);
-    };
+    // const fetchWithdrawDeposit = async (requestData: any) => {
+    //     try {
+    //         const res = await GetOrderHistoryAPI.GetWithdrawDepositAllCoin(
+    //             requestData
+    //         );
+    //         setOrderWithdrawDeposit(res.data);
+    //     } catch (error) {
+    //         console.log("error from addNewOrderOTC", error);
+    //     }
+    // };
 
     const contextValue: GetOtcHistoryValue = {
         orderHistory,
         fetchOrderOTC,
-        orderWithdrawDeposit,
-        fetchWithdrawDeposit,
-        setDateContext,
+        // orderWithdrawDeposit,
+        // fetchWithdrawDeposit,
     };
 
     return (

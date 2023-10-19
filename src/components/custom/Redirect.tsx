@@ -4,7 +4,7 @@ type Props = { children: any };
 
 export default function Redirect({ children }: Props) {
     const token = localStorage.getItem("token");
-    if (!token || token === "undefined") {
+    if (!token || token === undefined) {
         localStorage.removeItem("token");
         return children;
     }
