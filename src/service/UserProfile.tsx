@@ -8,11 +8,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserProfileContext } from "@/context/userContext";
 import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import WithdrawDepositCoin from "@/components/custom/components_for_wid_depo/WithdrawDepositCoin";
 
 export default function UserProfile() {
     const { userProfileData, fetchUserProfile } = useUserProfileContext();
+    const navigate = useNavigate();
     const token = localStorage.getItem("token") ?? "";
 
     useEffect(() => {
@@ -21,10 +22,8 @@ export default function UserProfile() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        <Navigate to="/" replace={true} />
-        window.location.reload();
-        // return <Navigate to="/" replace={true} />;
-    };
+        navigate('/');
+      };
 
     if (!userProfileData) {
         return <div>Load...</div>;
