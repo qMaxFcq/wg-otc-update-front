@@ -23,14 +23,13 @@ export default function UserProfile() {
         localStorage.removeItem("token");
         setTimeout(() => {
             window.location.reload();
-        }, 3000);
-        return <Navigate to="/" replace={true} />;
+        }, 1000);
+        return <Navigate to="/login" replace={true} />;
     };
 
     if (!userProfileData) {
         return <div>Load...</div>;
     }
-    // console.log(userProfileData);
 
     return (
         <div className="w-60     ">
