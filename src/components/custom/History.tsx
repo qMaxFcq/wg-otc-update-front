@@ -142,8 +142,12 @@ export default function History() {
                             <PopoverContent className="w-auto p-0">
                                 <Calendar
                                     mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
+                                    selected={date ?? new Date()}
+                                    onSelect={(day: Date | undefined) => {
+                                        if (day !== undefined) {
+                                            setDate(day);
+                                        }
+                                    }}
                                     initialFocus
                                 />
                             </PopoverContent>
@@ -153,7 +157,7 @@ export default function History() {
                         </Button>
                         <Button
                             onClick={nextPage}
-                            disabled={orderHistory.data.length < 10}
+                            disabled={(orderHistory as any).data.length < 10}
                         >
                             Next
                         </Button>
@@ -174,7 +178,7 @@ export default function History() {
                             </TableRow>
                         </TableHeader>
                         <TableBody className="text-sm">
-                            {orderHistory.data
+                            {(orderHistory as any).data
                                 .slice()
                                 .sort((a: Order, b: Order) => a.id - b.id)
                                 .map((order: Order, index: number) => (
@@ -347,7 +351,7 @@ export default function History() {
                                     <div className="flex flex-col">
                                         <p>Edited You Exchange</p>
                                         <Select
-                                            value={editedOrder?.shop_id}
+                                            value={editedOrder?.shop_id.toString()}
                                             onValueChange={(value) => {
                                                 if (editedOrder) {
                                                     setEditedOrder({
@@ -361,10 +365,10 @@ export default function History() {
                                                 <SelectValue placeholder="Select" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value={2}>
+                                                <SelectItem value="2">
                                                     Binance
                                                 </SelectItem>
-                                                <SelectItem value={4}>
+                                                <SelectItem value="4">
                                                     OKX
                                                 </SelectItem>
                                             </SelectContent>
@@ -373,15 +377,15 @@ export default function History() {
                                 </div>
                                 <p>Edit Price</p>
                                 <Input
-                                    type="text"
+                                    type="number"
                                     id="editedPrice"
                                     value={editedOrder.price}
                                     onChange={(e) => {
-                                        const value = String(e.target.value);
+                                        const value = Number(e.target.value);
                                         if (!isNaN(value)) {
                                             setEditedOrder({
                                                 ...editedOrder,
-                                                price: String(value),
+                                                price: Number(value),
                                             });
                                         } else {
                                             setEditedOrder({
@@ -395,15 +399,15 @@ export default function History() {
                             <div className="mb-4">
                                 <p>Edit Amount</p>
                                 <Input
-                                    type="text"
+                                    type="number"
                                     id="editedAmount"
                                     value={editedOrder.amount}
                                     onChange={(e) => {
-                                        const value = String(e.target.value);
+                                        const value = Number(e.target.value);
                                         if (!isNaN(value)) {
                                             setEditedOrder({
                                                 ...editedOrder,
-                                                amount: String(value),
+                                                amount: Number(value),
                                             });
                                         } else {
                                             setEditedOrder({

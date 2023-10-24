@@ -3,6 +3,8 @@ import * as GetOrderHistoryAPI from "../api/order-detail-api";
 
 interface OrderHistoryType {
     orderHistory: string;
+    totalsByCoin: number;
+    additionalData: number;
 }
 
 // interface OrdeWithdrawDepositType {
@@ -52,7 +54,6 @@ export const GetOrderContextProvider = ({
             console.log("error from addNewOrderOTC", error);
         }
     };
-
 
     const contextValue: GetOtcHistoryValue = {
         orderHistory,

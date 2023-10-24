@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useGetOrderContext } from "@/context/getOrderHistoryContext";
 
@@ -6,7 +5,6 @@ type Props = {};
 
 export default function WithdrawDepositCoin({}: Props) {
     const { orderHistory } = useGetOrderContext();
-    console.log(orderHistory);
 
     if (
         !orderHistory ||
@@ -16,76 +14,83 @@ export default function WithdrawDepositCoin({}: Props) {
         return <div>{/* <p></p> */}</div>;
     }
 
-    const formatNumberWithCommasAndDecimals = (number, decimals) =>
-        parseFloat(number).toLocaleString(undefined, {
+    const totalsByCoin: any = orderHistory.totalsByCoin;
+    const additionalData: any = orderHistory.additionalData;
+
+    const formatNumberWithCommasAndDecimals = (
+        number: number,
+        decimals: number
+    ): string => {
+        return number.toLocaleString(undefined, {
             maximumFractionDigits: decimals,
         });
+    };
 
     const totalUsdtSellFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.USDT_THB.SELL,
+        totalsByCoin.USDT_THB.SELL,
         2
     );
     const totalBtcSellFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.BTC_THB.SELL,
+        totalsByCoin.BTC_THB.SELL,
         8
     );
     const totalEthSellFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.ETH_THB.SELL,
+        totalsByCoin.ETH_THB.SELL,
         8
     );
     const totalBnbSellFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.BNB_THB.SELL,
+        totalsByCoin.BNB_THB.SELL,
         8
     );
 
     const totalUsdtBuyFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.USDT_THB.BUY,
+        totalsByCoin.USDT_THB.BUY,
         2
     );
     const totalBtcBuyFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.BTC_THB.BUY,
+        totalsByCoin.BTC_THB.BUY,
         8
     );
     const totalEthBuyFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.ETH_THB.BUY,
+        totalsByCoin.ETH_THB.BUY,
         8
     );
     const totalBnbBuyFromEmp = formatNumberWithCommasAndDecimals(
-        orderHistory.totalsByCoin.BNB_THB.BUY,
+        totalsByCoin.BNB_THB.BUY,
         8
     );
-
+    // element implicitly has an 'any' type because expression of tpye '4' can't be used to index type 'Number' property '4' does not existon on type 'Number'
     const totalUsdtSellFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[4].amount,
+        additionalData[4].amount,
         2
     );
     const totalBtcSellFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[5].amount,
+        additionalData[5].amount,
         8
     );
     const totalEthSellFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[6].amount,
+        additionalData[6].amount,
         8
     );
     const totalBnbSellFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[7].amount,
+        additionalData[7].amount,
         8
     );
 
     const totalUsdtBuyFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[0].amount,
+        additionalData[0].amount,
         2
     );
     const totalBtcBuyFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[1].amount,
+        additionalData[1].amount,
         8
     );
     const totalEthBuyFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[2].amount,
+        additionalData[2].amount,
         8
     );
     const totalBnbBuyFromApi = formatNumberWithCommasAndDecimals(
-        orderHistory.additionalData[3].amount,
+        additionalData[3].amount,
         8
     );
 
