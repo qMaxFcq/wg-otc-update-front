@@ -3,6 +3,7 @@ import * as UserProfileAPI from "../api/user-api";
 
 interface userProfileDataType {
     userProfileData: string;
+    username: string;
 }
 
 interface UserProflieContextValue {

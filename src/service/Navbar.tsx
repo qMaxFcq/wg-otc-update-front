@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
-import wgImg from "../../src/pic/wg.png";
 
 export default function Navbar() {
     return (

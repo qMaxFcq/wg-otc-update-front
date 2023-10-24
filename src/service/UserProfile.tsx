@@ -13,9 +13,10 @@ import WithdrawDepositCoin from "@/components/custom/components_for_wid_depo/Wit
 
 export default function UserProfile() {
     const { userProfileData, fetchUserProfile } = useUserProfileContext();
+    const token = localStorage.getItem("token") ?? "";
 
     useEffect(() => {
-        fetchUserProfile();
+        fetchUserProfile(token);
     }, []);
 
     const handleLogout = () => {
@@ -24,7 +25,7 @@ export default function UserProfile() {
         return <Navigate to="/" replace={true} />;
     };
 
-    if (!userProfileData || userProfileData.length === 0) {
+    if (!userProfileData) {
         return <div>Load...</div>;
     }
     // console.log(userProfileData);
