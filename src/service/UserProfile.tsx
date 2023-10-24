@@ -21,15 +21,15 @@ export default function UserProfile() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
-        return <Navigate to="/" replace={true} />;
+        <Navigate to="/" replace={true} />
+        window.location.reload();
+        // return <Navigate to="/" replace={true} />;
     };
 
     if (!userProfileData) {
         return <div>Load...</div>;
     }
+    // console.log(userProfileData);
 
     return (
         <div className="w-60     ">
