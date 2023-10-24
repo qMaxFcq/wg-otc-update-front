@@ -44,7 +44,7 @@ export default function History() {
     const [currentPage, setCurrentPage] = useState(1);
     const [date, setDate] = useState<Date | null>(null);
     const [editedOrder, setEditedOrder] = useState<Order | null>(null);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") ?? "";
 
     const formattedDate = date
         ? date.toLocaleDateString("en-GB", {
@@ -103,7 +103,8 @@ export default function History() {
         fetchOrderOTC(requestData);
     }, [formattedDate, currentPage]);
 
-    if (!orderHistory || !orderHistory.data) {
+    // if (!orderHistory || !orderHistory.data) {
+    if (!orderHistory) {
         return (
             <div className="fixed ml-64 inset-0 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-indigo-500"></div>

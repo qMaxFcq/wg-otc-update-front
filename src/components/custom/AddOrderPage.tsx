@@ -37,7 +37,7 @@ export default function AddOrderPage() {
     const [selectedCustomer, setSelectedCustomer] = useState<string>("");
     const [selectedYouEx, setSelectedYouEx] = useState<string>();
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") ?? "";
 
     useEffect(() => {
         setSelectedSymbol(input.symbol);
@@ -64,7 +64,7 @@ export default function AddOrderPage() {
         }
 
         try {
-            await addNewOrderOTC(input, token);
+            await addNewOrderOTC(input, token) ;
             window.alert("เพิ่มข้อมูลเรียบร้อย");
             setInput(initialInput);
         } catch (error) {

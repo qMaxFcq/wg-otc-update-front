@@ -10,7 +10,7 @@ interface OrderHistoryType {
 // }
 
 interface GetOtcHistoryValue {
-    fetchOrderOTC: (page: number, formattedDate: any) => void;
+    fetchOrderOTC: (requestData: any) => void;
     // fetchWithdrawDeposit: (formattedDate: Date, token: string) => void;
     orderHistory: OrderHistoryType | null;
     // orderWithdrawDeposit: OrdeWithdrawDepositType | null;
@@ -42,8 +42,6 @@ export const GetOrderContextProvider = ({
     const [orderHistory, setOrderHistory] = useState<OrderHistoryType | null>(
         null
     );
-    // const [orderWithdrawDeposit, setOrderWithdrawDeposit] =
-    //     useState<OrdeWithdrawDepositType | null>(null);
 
     const fetchOrderOTC = async (requestData: any) => {
         try {
@@ -55,22 +53,10 @@ export const GetOrderContextProvider = ({
         }
     };
 
-    // const fetchWithdrawDeposit = async (requestData: any) => {
-    //     try {
-    //         const res = await GetOrderHistoryAPI.GetWithdrawDepositAllCoin(
-    //             requestData
-    //         );
-    //         setOrderWithdrawDeposit(res.data);
-    //     } catch (error) {
-    //         console.log("error from addNewOrderOTC", error);
-    //     }
-    // };
 
     const contextValue: GetOtcHistoryValue = {
         orderHistory,
         fetchOrderOTC,
-        // orderWithdrawDeposit,
-        // fetchWithdrawDeposit,
     };
 
     return (
