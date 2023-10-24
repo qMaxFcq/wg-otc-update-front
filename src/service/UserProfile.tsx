@@ -21,7 +21,9 @@ export default function UserProfile() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
         return <Navigate to="/" replace={true} />;
     };
 
