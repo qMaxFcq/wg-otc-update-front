@@ -24,7 +24,7 @@ export default function UserProfile() {
         setTimeout(() => {
             window.location.reload();
         }, 1000);
-        return <Navigate to="/login" replace={true} />;
+        return <Navigate to="/main" replace={true} />;
     };
 
     if (!userProfileData) {
