@@ -7,7 +7,7 @@ import ProtectedRoute from "@/components/custom/ProtectedRoute";
 
 const router = createBrowserRouter([
     {
-        path: "/main",
+        path: "/",
         element: (
             <Redirect>
                 <LoginPage />
