@@ -3,8 +3,9 @@ import * as LoginApi from "../api/login-api";
 
 // Define the shape of the context value
 interface LoginContextValue {
-    userLogin: (input: any) => Promise<void>;
+    userLogin: (input: any) => Promise<{ status: number }>;
 }
+
 
 // Create the context
 const LoginContext = createContext<LoginContextValue | undefined>(undefined);
@@ -29,18 +30,17 @@ interface LoginContextProviderProps {
 export const LoginContextProvider = ({
     children,
 }: LoginContextProviderProps) => {
-    const userLogin = async (loginData: any) => {
+    const userLogin = async (loginData: any): Promise<{ status: number }> => {
         try {
             const response = await LoginApi.login(loginData);
-            // console.log("Response from userLogin:", response.data.token);
             localStorage.setItem("token", response.data.token);
-            return response;
-
-            // หรือจะส่งค่า response ไปยังส่วนอื่นของแอปพลิเคชันก็ได้
+            return { status: response.status };
         } catch (error) {
             console.log("error from userLogin", error);
+            return { status: 500 }; 
         }
     };
+    
 
     const contextValue: LoginContextValue = {
         userLogin,

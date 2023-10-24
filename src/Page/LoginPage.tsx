@@ -46,7 +46,7 @@ export default function LoginPage({}: Props) {
         setIsLoading(true);
         try {
             const response = await userLogin(loginData);
-            if (response && response.status === 200) {
+            if (response.status === 200) {
                 setIsLoading(false);
                 window.location.reload();
             } else {
@@ -57,7 +57,6 @@ export default function LoginPage({}: Props) {
         } catch (error) {
             setIsLoading(false);
             console.error("An error occurred:", error);
-            // จัดการข้อผิดพลาดตามที่คุณต้องการ
         }
     };
 

@@ -32,7 +32,7 @@ export default function UserProfile() {
     return (
         <div className="w-60     ">
             <div className="flex justify-end w-auto items-start">
-                <div className="flex justify-around w-32 p-3 m-1 -space-x-1 border  rounded-lg bg-white">
+                <div className="flex justify-around w-40 p-3 m-1 -space-x-1 border  rounded-lg bg-white">
                     <DropdownMenu>
                         <Avatar className="w-10 h-10">
                             <AvatarImage src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
@@ -41,7 +41,7 @@ export default function UserProfile() {
                         <DropdownMenuTrigger>
                             <p>{userProfileData.username}</p>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="mr-1 mt-3 ">
+                        <DropdownMenuContent className="mr-1 mt-3 w-40">
                             <DropdownMenuItem onClick={handleLogout}>
                                 Logout
                             </DropdownMenuItem>
