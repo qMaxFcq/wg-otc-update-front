@@ -1,12 +1,19 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-type Props = { children: any };
+type Props = { children: React.ReactNode };
 
 export default function Redirect({ children }: Props) {
     const token = localStorage.getItem("token");
-    if (!token || token === undefined) {
-        localStorage.removeItem("token");
-        return children;
-    }
-    return <Navigate to="/home" />;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!token || token === undefined) {
+            localStorage.removeItem("token");
+        } else {
+            navigate("/home");
+        }
+    }, [token, navigate]);
+
+    return children;
 }
