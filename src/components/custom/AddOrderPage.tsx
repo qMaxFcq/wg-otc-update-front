@@ -18,6 +18,7 @@ interface InputState {
     amount: number | string;
     customer: string;
     shop_id: string;
+    amount_thb: number | string;
 }
 
 const initialInput: InputState = {
@@ -27,8 +28,8 @@ const initialInput: InputState = {
     amount: "",
     customer: "BTZ",
     shop_id: "2",
+    amount_thb: "",
 };
-
 export default function AddOrderPage() {
     const { addNewOrderOTC } = useAddNewOrderContext();
     const [input, setInput] = useState<InputState>(initialInput);
@@ -36,6 +37,7 @@ export default function AddOrderPage() {
     const [selectedSide, setSelectedSide] = useState<string>("");
     const [selectedCustomer, setSelectedCustomer] = useState<string>("");
     const [selectedYouEx, setSelectedYouEx] = useState<string>();
+    const [calculatedPrice, setCalculatedPrice] = useState<number | string>("");
 
     const token = localStorage.getItem("token") ?? "";
 
@@ -44,13 +46,34 @@ export default function AddOrderPage() {
         setSelectedSide(input.side);
         setSelectedCustomer(input.customer);
         setSelectedYouEx(input.shop_id);
-    }, [input.symbol, input.side, input.customer, input.shop_id]);
+
+        if (
+            typeof input.amount_thb === "string" &&
+            typeof input.amount === "string" &&
+            !isNaN(parseFloat(input.amount_thb)) &&
+            !isNaN(parseFloat(input.amount))
+        ) {
+            setCalculatedPrice(
+                (
+                    parseFloat(input.amount_thb) / parseFloat(input.amount)
+                ).toFixed(2)
+            );
+        }
+    }, [
+        input.symbol,
+        input.side,
+        input.customer,
+        input.shop_id,
+        input.amount_thb,
+        input.amount,
+    ]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         const numericValue = !isNaN(parseFloat(value))
             ? parseFloat(value)
             : value;
+
         setInput((prevInput) => ({
             ...prevInput,
             [name]: numericValue,
@@ -64,7 +87,7 @@ export default function AddOrderPage() {
         }
 
         try {
-            await addNewOrderOTC(input, token) ;
+            await addNewOrderOTC(input, token);
             window.alert("เพิ่มข้อมูลเรียบร้อย");
             setInput(initialInput);
         } catch (error) {
@@ -72,17 +95,17 @@ export default function AddOrderPage() {
         }
     };
 
+    console.log(calculatedPrice);
+
     return (
-        <div className="w-[550px] rounded-md m-auto ">
-            <div className="m-auto w-[550px] p-5">
-                {/* <div className="text-4xl text-black mb-2">Add New OTC</div> */}
+        <div className="w-[750px] rounded-md m-auto ">
+            <div className="m-auto w-[750px] p-5">
                 <div>
                     <Card className="border-2 border-black  shadow-2xl">
                         <CardHeader>
                             <CardTitle className="text-4xl font-extralight ">
                                 Add New Order
                             </CardTitle>
-                            {/* <CardDescription>Card Description</CardDescription> */}
                         </CardHeader>
                         <div className="flex flex-row">
                             <CardContent>
@@ -150,6 +173,17 @@ export default function AddOrderPage() {
                                     value={input.price}
                                     onChange={handleInputChange}
                                 />
+                                <p
+                                    className={`text-xs text-gray-400 ${
+                                        calculatedPrice === 0
+                                            ? "hidden"
+                                            : calculatedPrice === ""
+                                            ? "hidden"
+                                            : ""
+                                    }`}
+                                >
+                                    Real Price : {calculatedPrice}
+                                </p>
                             </CardContent>
                             <CardContent>
                                 <p>Amount</p>
@@ -159,6 +193,17 @@ export default function AddOrderPage() {
                                     name="amount"
                                     value={input.amount}
                                     onChange={handleInputChange}
+                                />
+                            </CardContent>
+                            <CardContent>
+                                <p>THB</p>
+                                <Input
+                                    className="w-[200px] placeholder:italic placeholder:text-slate-400 placeholder:text-sm"
+                                    type="number"
+                                    name="amount_thb"
+                                    value={input.amount_thb}
+                                    onChange={handleInputChange}
+                                    placeholder="Input Money Received"
                                 />
                             </CardContent>
                         </div>
