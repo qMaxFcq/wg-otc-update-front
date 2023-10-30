@@ -8,8 +8,9 @@ export default function Redirect({ children }: Props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!token || token === undefined) {
+        if (!token || token === "undefined") {
             localStorage.removeItem("token");
+            navigate("/");
         } else {
             navigate("/home");
         }
