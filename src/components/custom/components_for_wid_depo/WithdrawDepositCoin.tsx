@@ -17,14 +17,15 @@ export default function WithdrawDepositCoin({}: Props) {
     const totalsByCoin: any = orderHistory.totalsByCoin;
     const additionalData: any = orderHistory.additionalData;
 
-    const formatNumberWithCommasAndDecimals = (
-        number: number,
-        decimals: number
-    ): string => {
-        return number.toLocaleString(undefined, {
-            maximumFractionDigits: decimals,
-        });
-    };
+    const formatNumberWithCommasAndDecimals = (value: number | string, decimals: number): string => {
+        const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+        const options = {
+          maximumFractionDigits: decimals,
+          minimumFractionDigits: decimals,
+        };
+        return numericValue.toLocaleString(undefined, options);
+      };
+      
 
     const totalUsdtSellFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.USDT_THB.SELL,
@@ -32,15 +33,15 @@ export default function WithdrawDepositCoin({}: Props) {
     );
     const totalBtcSellFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.BTC_THB.SELL,
-        8
+        6
     );
     const totalEthSellFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.ETH_THB.SELL,
-        8
+        6
     );
     const totalBnbSellFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.BNB_THB.SELL,
-        8
+        6
     );
 
     const totalUsdtBuyFromEmp = formatNumberWithCommasAndDecimals(
@@ -49,32 +50,33 @@ export default function WithdrawDepositCoin({}: Props) {
     );
     const totalBtcBuyFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.BTC_THB.BUY,
-        8
+        6
     );
     const totalEthBuyFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.ETH_THB.BUY,
-        8
+        6
     );
     const totalBnbBuyFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.BNB_THB.BUY,
-        8
+        6
     );
-    // element implicitly has an 'any' type because expression of tpye '4' can't be used to index type 'Number' property '4' does not existon on type 'Number'
+
     const totalUsdtSellFromApi = formatNumberWithCommasAndDecimals(
         additionalData[4].amount,
         2
     );
+
     const totalBtcSellFromApi = formatNumberWithCommasAndDecimals(
         additionalData[5].amount,
-        8
+        6
     );
     const totalEthSellFromApi = formatNumberWithCommasAndDecimals(
         additionalData[6].amount,
-        8
+        6
     );
     const totalBnbSellFromApi = formatNumberWithCommasAndDecimals(
         additionalData[7].amount,
-        8
+        6
     );
 
     const totalUsdtBuyFromApi = formatNumberWithCommasAndDecimals(
@@ -83,15 +85,15 @@ export default function WithdrawDepositCoin({}: Props) {
     );
     const totalBtcBuyFromApi = formatNumberWithCommasAndDecimals(
         additionalData[1].amount,
-        8
+        6
     );
     const totalEthBuyFromApi = formatNumberWithCommasAndDecimals(
         additionalData[2].amount,
-        8
+        6
     );
     const totalBnbBuyFromApi = formatNumberWithCommasAndDecimals(
         additionalData[3].amount,
-        8
+        6
     );
 
     return (
