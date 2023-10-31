@@ -48,14 +48,13 @@ export default function AddOrderPage() {
         setSelectedYouEx(input.shop_id);
 
         if (
-            typeof input.amount_thb === "string" &&
-            typeof input.amount === "string" &&
-            !isNaN(parseFloat(input.amount_thb)) &&
-            !isNaN(parseFloat(input.amount))
+            !isNaN(parseFloat(String(input.amount_thb))) &&
+            !isNaN(parseFloat(String(input.amount)))
         ) {
             setCalculatedPrice(
                 (
-                    parseFloat(input.amount_thb) / parseFloat(input.amount)
+                    parseFloat(String(input.amount_thb)) /
+                    parseFloat(String(input.amount))
                 ).toFixed(2)
             );
         }
@@ -95,7 +94,7 @@ export default function AddOrderPage() {
         }
     };
 
-    console.log(calculatedPrice);
+    console.log(":::::", calculatedPrice);
 
     return (
         <div className="w-[750px] rounded-md m-auto ">
