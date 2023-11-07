@@ -170,7 +170,6 @@ export default function AddOrderPage() {
                                     value={input.price}
                                     onChange={handleInputChange}
                                     placeholder="Input Price"
-
                                 />
                                 <p
                                     className={`text-xs text-gray-400 ${
@@ -193,7 +192,6 @@ export default function AddOrderPage() {
                                     value={input.amount}
                                     onChange={handleInputChange}
                                     placeholder="Input Amount"
-
                                 />
                             </CardContent>
                             <CardContent>
@@ -249,6 +247,9 @@ export default function AddOrderPage() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="BTZ">BTZ</SelectItem>
+                                        <SelectItem value="Binance">
+                                            Binance
+                                        </SelectItem>
                                         <SelectItem value="INVX">
                                             INVX
                                         </SelectItem>
