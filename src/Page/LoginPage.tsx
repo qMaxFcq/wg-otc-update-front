@@ -61,10 +61,10 @@ export default function LoginPage({}: Props) {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500">
+        <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 ">
             {isLoading && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-indigo-500"></div>
+                <div className="absolute top-56 right-[620px]">
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
                 </div>
             )}
             <Card className="w-[350px] ">
