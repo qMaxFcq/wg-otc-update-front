@@ -94,8 +94,6 @@ export default function AddOrderPage() {
         }
     };
 
-    console.log(":::::", calculatedPrice);
-
     return (
         <div className="w-[750px] rounded-md m-auto ">
             <div className="m-auto w-[750px] p-5">
@@ -166,11 +164,13 @@ export default function AddOrderPage() {
                             <CardContent>
                                 <p>Price</p>
                                 <Input
-                                    className="w-[140px]"
+                                    className="w-[140px] placeholder:italic placeholder:text-slate-400 placeholder:text-sm"
                                     type="number"
                                     name="price"
                                     value={input.price}
                                     onChange={handleInputChange}
+                                    placeholder="Input Price"
+
                                 />
                                 <p
                                     className={`text-xs text-gray-400 ${
@@ -187,11 +187,13 @@ export default function AddOrderPage() {
                             <CardContent>
                                 <p>Amount</p>
                                 <Input
-                                    className="w-[200px]"
+                                    className="w-[200px] placeholder:italic placeholder:text-slate-400 placeholder:text-sm"
                                     type="number"
                                     name="amount"
                                     value={input.amount}
                                     onChange={handleInputChange}
+                                    placeholder="Input Amount"
+
                                 />
                             </CardContent>
                             <CardContent>

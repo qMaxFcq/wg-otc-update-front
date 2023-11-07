@@ -213,11 +213,21 @@ export default function History() {
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            {order.shop_id === 2
-                                                ? "Binance"
-                                                : order.shop_id === 4
-                                                ? "OKX"
-                                                : ""}
+                                            <span
+                                                className={
+                                                    order.shop_id === 2
+                                                        ? "text-yellow-300"
+                                                        : order.shop_id === 4
+                                                        ? "text-gray-300"
+                                                        : ""
+                                                }
+                                            >
+                                                {order.shop_id === 2
+                                                    ? "Binance"
+                                                    : order.shop_id === 4
+                                                    ? "OKX"
+                                                    : ""}
+                                            </span>
                                         </TableCell>
                                         <TableCell
                                             className={
@@ -316,6 +326,32 @@ export default function History() {
                                         </Select>
                                     </div>
                                     <div className="flex flex-col">
+                                        <p>Edited You Exchange</p>
+                                        <Select
+                                            value={editedOrder?.shop_id.toString()}
+                                            onValueChange={(value) => {
+                                                if (editedOrder) {
+                                                    setEditedOrder({
+                                                        ...editedOrder,
+                                                        shop_id: Number(value),
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            <SelectTrigger className="w-[140px]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="2">
+                                                    Binance
+                                                </SelectItem>
+                                                <SelectItem value="4">
+                                                    OKX
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="flex flex-col">
                                         <p>Edited Exchange</p>
                                         <Select
                                             value={editedOrder.customer}
@@ -344,32 +380,6 @@ export default function History() {
                                                 </SelectItem>
                                                 <SelectItem value="Z">
                                                     Z
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <p>Edited You Exchange</p>
-                                        <Select
-                                            value={editedOrder?.shop_id.toString()}
-                                            onValueChange={(value) => {
-                                                if (editedOrder) {
-                                                    setEditedOrder({
-                                                        ...editedOrder,
-                                                        shop_id: Number(value),
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            <SelectTrigger className="w-[140px]">
-                                                <SelectValue placeholder="Select" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="2">
-                                                    Binance
-                                                </SelectItem>
-                                                <SelectItem value="4">
-                                                    OKX
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
