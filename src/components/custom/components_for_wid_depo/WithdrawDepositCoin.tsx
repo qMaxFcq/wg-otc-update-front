@@ -16,16 +16,54 @@ export default function WithdrawDepositCoin({}: Props) {
 
     const totalsByCoin: any = orderHistory.totalsByCoin;
     const additionalData: any = orderHistory.additionalData;
+    const depositWithdrawnDataByAsset = additionalData.reduce(
+        (result: any, item: any) => {
+            const exchangeId = item.exchange_id;
+            const assetId = item.asset_id;
+    
+            if (!result[exchangeId]) {
+                result[exchangeId] = {};
+            }
+    
+            if (!result[exchangeId][assetId]) {
+                result[exchangeId][assetId] = {
+                    deposit: 0,
+                    withdrawn: 0,
+                };
+            }
+    
+            result[exchangeId][assetId].deposit += parseFloat(item.deposit);
+            result[exchangeId][assetId].withdrawn += parseFloat(item.withdrawn);
+    
+            return result;
+        },
+        {}
+    );
 
-    const formatNumberWithCommasAndDecimals = (value: number | string, decimals: number): string => {
-        const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+    const usdtBinanceWithdrawn = depositWithdrawnDataByAsset[1]?.[2]?.withdrawn || 0;
+    const btcBinanceWithdrawn = depositWithdrawnDataByAsset[1]?.[3]?.withdrawn || 0;
+    const ethBinanceWithdrawn = depositWithdrawnDataByAsset[1]?.[4]?.withdrawn || 0;
+
+    const usdtBinanceDeposit = depositWithdrawnDataByAsset[1]?.[2]?.deposit || 0;
+    const btcBinanceDeposit = depositWithdrawnDataByAsset[1]?.[3]?.deposit || 0;
+    const ethBinanceDeposit = depositWithdrawnDataByAsset[1]?.[4]?.deposit || 0;
+
+    const usdtOkxWithdrawn = depositWithdrawnDataByAsset[2]?.[2]?.withdrawn || 0;
+
+    const totalUsdtWithdrawn = usdtBinanceWithdrawn + usdtOkxWithdrawn
+
+    const formatNumberWithCommasAndDecimals = (
+        value: number | string,
+        decimals: number
+    ): string => {
+        const numericValue =
+            typeof value === "string" ? parseFloat(value) : value;
         const options = {
-          maximumFractionDigits: decimals,
-          minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+            minimumFractionDigits: decimals,
         };
         return numericValue.toLocaleString(undefined, options);
-      };
-      
+    };
 
     const totalUsdtSellFromEmp = formatNumberWithCommasAndDecimals(
         totalsByCoin.USDT_THB.SELL,
@@ -40,7 +78,7 @@ export default function WithdrawDepositCoin({}: Props) {
         6
     );
     const totalBnbSellFromEmp = formatNumberWithCommasAndDecimals(
-        totalsByCoin.BNB_THB.SELL,
+        0,
         6
     );
 
@@ -57,42 +95,43 @@ export default function WithdrawDepositCoin({}: Props) {
         6
     );
     const totalBnbBuyFromEmp = formatNumberWithCommasAndDecimals(
-        totalsByCoin.BNB_THB.BUY,
+        0,
         6
     );
 
     const totalUsdtSellFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[4].amount,
+        totalUsdtWithdrawn,
         2
     );
 
     const totalBtcSellFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[5].amount,
+        btcBinanceWithdrawn,
         6
     );
     const totalEthSellFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[6].amount,
+        ethBinanceWithdrawn,
         6
     );
+
     const totalBnbSellFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[7].amount,
+        0,
         6
     );
 
     const totalUsdtBuyFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[0].amount,
+        usdtBinanceDeposit,
         2
     );
     const totalBtcBuyFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[1].amount,
+        btcBinanceDeposit,
         6
     );
     const totalEthBuyFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[2].amount,
+        ethBinanceDeposit,
         6
     );
     const totalBnbBuyFromApi = formatNumberWithCommasAndDecimals(
-        additionalData[3].amount,
+        0,
         6
     );
 
