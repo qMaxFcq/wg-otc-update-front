@@ -7,5 +7,5 @@ export default function ProtectedRoute({ children }: Props) {
     if (token) {
         return children;
     }
-    return <Navigate to="/" />;
+    return <Navigate to="/*" />;
 }
