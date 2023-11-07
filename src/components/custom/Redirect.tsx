@@ -10,11 +10,10 @@ export default function Redirect({ children }: Props) {
     useEffect(() => {
         if (!token || token === "undefined") {
             localStorage.removeItem("token");
-            navigate("/");
         } else {
             navigate("/home");
         }
     }, [token, navigate]);
 
-    return children;
+    return <>{children}</>;
 }
