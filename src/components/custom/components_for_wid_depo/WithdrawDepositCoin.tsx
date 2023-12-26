@@ -132,7 +132,7 @@ export default function WithdrawDepositCoin({}: Props) {
     const totalBnbBuyFromApi = formatNumberWithCommasAndDecimals(0, 6);
 
     return (
-        <div className="mt-28  flex flex-wrap gap-3  justify-between my-4  ">
+        <div className="mt-28  flex flex-wrap gap-6   my-4  ">
             <Badge className="min-w-[200px] text-sm flex flex-col mb-1  rounded-md  border-2 border-black hover:scale-105 transition  shadow-2xl">
                 <p>Total USDT Buy</p>
                 <p className="mb-2">
