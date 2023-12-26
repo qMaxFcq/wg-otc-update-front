@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { useGetOrderContext } from "@/context/getOrderHistoryContext";
 import { useAddNewOrderContext } from "@/context/addNewOrderContext";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader } from "../ui/card";
 
 interface Order {
     id: number;
@@ -113,154 +114,156 @@ export default function History() {
     }
 
     return (
-        <div className="w-[750px] rounded-md m-auto bg-white border-2 border-black  shadow-2xl">
-            <div className="m-auto w-[750px] p-3">
+        <Card className=" justify-center my-8 rounded-md  bg-white/90 border-2 border-black ">
+            <CardHeader>
                 <div className="text-2xl">Order History</div>
-                <div className="">
-                    <div className="space-x-2 flex justify-end ">
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-[280px] justify-start text-left font-normal",
-                                        !date && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? (
-                                        date.toLocaleDateString("en-US", {
-                                            year: "numeric",
-                                            month: "2-digit",
-                                            day: "2-digit",
-                                        })
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={date ?? new Date()}
-                                    onSelect={(day: Date | undefined) => {
-                                        if (day !== undefined) {
-                                            setDate(day);
-                                        }
-                                    }}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                        <Button onClick={prevPage} disabled={currentPage <= 1}>
-                            Previous
-                        </Button>
-                        <Button
-                            onClick={nextPage}
-                            disabled={(orderHistory as any).data.length < 10}
-                        >
-                            Next
-                        </Button>
-                    </div>
+            </CardHeader>
 
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>No.</TableHead>
-                                <TableHead>Coin</TableHead>
-                                <TableHead>Side</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>Amount</TableHead>
-                                <TableHead>Total</TableHead>
-                                <TableHead>Tranfer From</TableHead>
-                                <TableHead>ToExchange </TableHead>
-                                <TableHead>Edit</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody className="text-sm">
-                            {(orderHistory as any).data
-                                .slice()
-                                .sort((a: Order, b: Order) => a.id - b.id)
-                                .map((order: Order, index: number) => (
-                                    <TableRow key={order.id}>
-                                        <TableCell>
-                                            {(currentPage - 1) * 10 + index + 1}
-                                        </TableCell>{" "}
-                                        <TableCell>{order.symbol}</TableCell>
-                                        <TableCell
-                                            className={
-                                                order.side === "SELL"
-                                                    ? "text-red-600"
-                                                    : "text-green-600"
-                                            }
-                                        >
-                                            {order.side}
-                                        </TableCell>
-                                        <TableCell className="text-sky-700">
-                                            {Number(order.price).toFixed(2)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {Number(
-                                                order.amount
-                                            ).toLocaleString(undefined, {
+            <CardContent>
+                <div className="space-x-2 flex justify-end ">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "w-[280px] justify-start text-left font-normal",
+                                    !date && "text-muted-foreground"
+                                )}
+                            >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? (
+                                    date.toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                    })
+                                ) : (
+                                    <span>Pick a date</span>
+                                )}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                            <Calendar
+                                mode="single"
+                                selected={date ?? new Date()}
+                                onSelect={(day: Date | undefined) => {
+                                    if (day !== undefined) {
+                                        setDate(day);
+                                    }
+                                }}
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
+                    <Button onClick={prevPage} disabled={currentPage <= 1}>
+                        Previous
+                    </Button>
+                    <Button
+                        onClick={nextPage}
+                        disabled={(orderHistory as any).data.length < 10}
+                    >
+                        Next
+                    </Button>
+                </div>
+
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>No.</TableHead>
+                            <TableHead>Coin</TableHead>
+                            <TableHead>Side</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Amount</TableHead>
+                            <TableHead>Total</TableHead>
+                            <TableHead>Tranfer From</TableHead>
+                            <TableHead>ToExchange </TableHead>
+                            <TableHead>Edit</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody className="text-sm">
+                        {(orderHistory as any).data
+                            .slice()
+                            .sort((a: Order, b: Order) => a.id - b.id)
+                            .map((order: Order, index: number) => (
+                                <TableRow key={order.id}>
+                                    <TableCell>
+                                        {(currentPage - 1) * 10 + index + 1}
+                                    </TableCell>{" "}
+                                    <TableCell>{order.symbol}</TableCell>
+                                    <TableCell
+                                        className={
+                                            order.side === "SELL"
+                                                ? "text-red-600"
+                                                : "text-green-600"
+                                        }
+                                    >
+                                        {order.side}
+                                    </TableCell>
+                                    <TableCell className="text-sky-700">
+                                        {Number(order.price).toFixed(2)}
+                                    </TableCell>
+                                    <TableCell>
+                                        {Number(order.amount).toLocaleString(
+                                            undefined,
+                                            {
                                                 minimumFractionDigits: 2,
-                                            })}
-                                        </TableCell>
-                                        <TableCell>
-                                            {Number(order.cost).toLocaleString(
-                                                undefined,
-                                                { minimumFractionDigits: 2 }
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <span
-                                                className={
-                                                    order.shop_id === 2
-                                                        ? "text-yellow-300"
-                                                        : order.shop_id === 4
-                                                        ? "text-gray-300"
-                                                        : ""
-                                                }
-                                            >
-                                                {order.shop_id === 2
-                                                    ? "Binance"
-                                                    : order.shop_id === 4
-                                                    ? "OKX"
-                                                    : ""}
-                                            </span>
-                                        </TableCell>
-                                        <TableCell
+                                            }
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        {Number(order.cost).toLocaleString(
+                                            undefined,
+                                            { minimumFractionDigits: 2 }
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        <span
                                             className={
-                                                order.customer === "BTZ"
-                                                    ? "text-green-400"
-                                                    : order.customer === "INVX"
-                                                    ? "text-purple-800"
-                                                    : order.customer === "OKX"
-                                                    ? "text-slate-900"
-                                                    : order.customer === "BK"
-                                                    ? "text-green-300"
-                                                    : order.customer === "Z"
-                                                    ? "text-red-600"
+                                                order.shop_id === 2
+                                                    ? "text-yellow-300"
+                                                    : order.shop_id === 4
+                                                    ? "text-gray-300"
                                                     : ""
                                             }
                                         >
-                                            {order.customer}
-                                        </TableCell>
-                                        <TableCell>
-                                            <button
-                                                onClick={() =>
-                                                    handleEditOrder(order)
-                                                }
-                                            >
-                                                Edit
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            </div>
+                                            {order.shop_id === 2
+                                                ? "Binance"
+                                                : order.shop_id === 4
+                                                ? "OKX"
+                                                : ""}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell
+                                        className={
+                                            order.customer === "BTZ"
+                                                ? "text-green-400"
+                                                : order.customer === "INVX"
+                                                ? "text-purple-800"
+                                                : order.customer === "OKX"
+                                                ? "text-slate-900"
+                                                : order.customer === "BK"
+                                                ? "text-green-300"
+                                                : order.customer === "Z"
+                                                ? "text-red-600"
+                                                : ""
+                                        }
+                                    >
+                                        {order.customer}
+                                    </TableCell>
+                                    <TableCell>
+                                        <button
+                                            onClick={() =>
+                                                handleEditOrder(order)
+                                            }
+                                        >
+                                            Edit
+                                        </button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </CardContent>
 
             {editedOrder && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center m-auto">
@@ -442,6 +445,6 @@ export default function History() {
                     </div>
                 </div>
             )}
-        </div>
+        </Card>
     );
 }

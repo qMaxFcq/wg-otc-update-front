@@ -5,7 +5,7 @@ import UserProfile from "@/service/UserProfile";
 
 const HomePage: React.FC = () => {
     return (
-        <div className="flex bg-gradient-to-r from-indigo-500">
+        <div className="flex">
             <Navbar />
             <AddOrderPage />
             <UserProfile />
