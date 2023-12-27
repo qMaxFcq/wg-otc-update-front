@@ -36,12 +36,14 @@ export default function UserProfile() {
                 <div className="flex justify-end w-auto items-start">
                     <div className="flex justify-around w-40 p-3 m-1 -space-x-1 border  rounded-lg bg-white">
                         <DropdownMenu>
-                            <Avatar className="w-10 h-10">
-                                <AvatarImage src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
-                                <AvatarFallback>WG</AvatarFallback>
-                            </Avatar>
                             <DropdownMenuTrigger>
-                                <p>{userProfileData.username}</p>
+                                <div className="flex justify-between  gap-4 items-center">
+                                    <Avatar className="w-10 h-10">
+                                        <AvatarImage src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
+                                        <AvatarFallback>WG</AvatarFallback>
+                                    </Avatar>
+                                    <p>{userProfileData.username}</p>
+                                </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="mr-1 mt-3 w-40">
                                 <DropdownMenuItem onClick={handleLogout}>

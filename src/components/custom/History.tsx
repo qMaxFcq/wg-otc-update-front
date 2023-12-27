@@ -21,12 +21,24 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Calendar as CalendarIcon } from "lucide-react";
+import {
+    Calendar as CalendarIcon,
+    ChevronLeft,
+    ChevronRight,
+    Cog,
+    Edit,
+    Option,
+    PlusCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGetOrderContext } from "@/context/getOrderHistoryContext";
 import { useAddNewOrderContext } from "@/context/addNewOrderContext";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "../ui/card";
+import NewOrderForm from "./form/NewOrderForm";
+
+import { Drawer, DrawerTrigger, DrawerContent } from "../ui/drawer";
+import { Badge } from "../ui/badge";
 
 interface Order {
     id: number;
@@ -114,9 +126,32 @@ export default function History() {
     }
 
     return (
-        <Card className=" justify-center my-8 rounded-md  bg-white/90 border-2 border-black ">
+        <Card className=" justify-center my-8 rounded-md  bg-white/90 border-2 border-black  ">
             <CardHeader>
-                <div className="text-2xl">Order History</div>
+                <div className="flex justify-between ">
+                    <div className="text-2xl">Order History</div>
+
+                    <Drawer>
+                        <DrawerTrigger asChild>
+                            <Button
+                                variant="default"
+                                className="font-bold text-md"
+                            >
+                                <PlusCircle className="mr-2 h-4 w-4" />
+                                New order
+                            </Button>
+                        </DrawerTrigger>
+                        <DrawerContent>
+                            <div className="mx-auto w-full ">
+                                <div className="p-4 pb-0">
+                                    <div className="flex items-center justify-center space-x-2">
+                                        <NewOrderForm />
+                                    </div>
+                                </div>
+                            </div>
+                        </DrawerContent>
+                    </Drawer>
+                </div>
             </CardHeader>
 
             <CardContent>
@@ -156,13 +191,15 @@ export default function History() {
                         </PopoverContent>
                     </Popover>
                     <Button onClick={prevPage} disabled={currentPage <= 1}>
-                        Previous
+                        <ChevronLeft className="mr-2" />
+                        Prev
                     </Button>
                     <Button
                         onClick={nextPage}
                         disabled={(orderHistory as any).data.length < 10}
                     >
                         Next
+                        <ChevronRight className="ml-2" />
                     </Button>
                 </div>
 
@@ -190,14 +227,17 @@ export default function History() {
                                         {(currentPage - 1) * 10 + index + 1}
                                     </TableCell>{" "}
                                     <TableCell>{order.symbol}</TableCell>
-                                    <TableCell
-                                        className={
-                                            order.side === "SELL"
-                                                ? "text-red-600"
-                                                : "text-green-600"
-                                        }
-                                    >
-                                        {order.side}
+                                    <TableCell>
+                                        <Badge
+                                            className={
+                                                order.side === "SELL"
+                                                    ? "bg-rose-500"
+                                                    : "bg-teal-500"
+                                            }
+                                        >
+                                            {" "}
+                                            {order.side}
+                                        </Badge>
                                     </TableCell>
                                     <TableCell className="text-sky-700">
                                         {Number(order.price).toFixed(2)}
@@ -256,7 +296,7 @@ export default function History() {
                                                 handleEditOrder(order)
                                             }
                                         >
-                                            Edit
+                                            <Edit className="h-5 w-5" />
                                         </button>
                                     </TableCell>
                                 </TableRow>

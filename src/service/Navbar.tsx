@@ -54,8 +54,8 @@ const LogoIcon = () => (
 
 export default function Navbar() {
     return (
-        <div className="flex flex-col bg-slate-800 text-white h-screen p-4 ">
-            <aside className="w-64 max-md:hidden">
+        <div className="flex flex-col bg-slate-800 text-white  p-4   ">
+            <aside className="w-64 max-md:hidden h-screen">
                 <LogoIcon />
                 <NavbarItem />
             </aside>
@@ -65,7 +65,7 @@ export default function Navbar() {
                 </SheetTrigger>
                 <SheetContent
                     side={"left"}
-                    className="w-[304px] sm:w-[540px] bg-slate-800 text-white "
+                    className="w-[280px] sm:w-[340px] bg-slate-800 text-white  border-none "
                 >
                     <SheetHeader>
                         <div className="flex items-center gap-3 my-4 mb-8 justify-center">
