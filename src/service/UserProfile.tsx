@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserProfileContext } from "@/context/userContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import WithdrawDepositCoin from "@/components/custom/components_for_wid_depo/WithdrawDepositCoin";
 
 export default function UserProfile() {
     const { userProfileData, fetchUserProfile } = useUserProfileContext();

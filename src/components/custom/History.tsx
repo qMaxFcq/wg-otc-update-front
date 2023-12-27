@@ -25,9 +25,7 @@ import {
     Calendar as CalendarIcon,
     ChevronLeft,
     ChevronRight,
-    Cog,
     Edit,
-    Option,
     PlusCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
